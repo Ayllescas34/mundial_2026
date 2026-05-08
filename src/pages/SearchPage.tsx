@@ -408,3 +408,4 @@ export function SearchPage() {
     </div>
   )
 }
+
