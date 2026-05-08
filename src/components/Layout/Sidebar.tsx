@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+
 import {
   LayoutDashboard,
   Package,
@@ -314,6 +315,36 @@ export function Sidebar() {
               </NavLink>
             )
           )}
+
+          {/* MOBILE LOGOUT */}
+          <button
+            onClick={signOut}
+            className="
+              flex
+              flex-col
+              items-center
+              justify-center
+              gap-1
+              rounded-xl
+              px-2
+              py-2
+              min-w-[60px]
+              text-red-500
+              hover:bg-red-500/10
+              transition-colors
+            "
+          >
+            <LogOut size={18} />
+
+            <span
+              className="
+                text-[10px]
+                font-body
+              "
+            >
+              Salir
+            </span>
+          </button>
         </nav>
       </div>
     </>
