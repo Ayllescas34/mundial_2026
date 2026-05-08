@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --pitch-950: #020c04;
+  --pitch-900: #041408;
+  --pitch-800: #072010;
+  --gold-400: #fbbf24;
+  --gold-500: #f59e0b;
+  --neon: #39ff14;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--pitch-950);
+  color: #f0fdf4;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #155e1a; border-radius: 99px; }
+
+/* Animations */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pop {
+  0% { transform: scale(0.7); opacity: 0; }
+  80% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.anim-pop { animation: pop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) both; }
+.anim-slide-up { animation: slideUp 0.4s ease-out both; }
+.anim-fade { animation: fadeIn 0.3s ease both; }
+.anim-float { animation: float 3s ease-in-out infinite; }
+
+/* Sticker shine effect */
+.sticker-shine {
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.12) 50%, transparent 70%);
+  background-size: 200% 100%;
+}
+.sticker-shine:hover {
+  animation: shimmer 1.2s ease infinite;
+}
+
+/* Grass texture overlay */
+.grass-bg {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.012) 60px,
+      rgba(255,255,255,0.012) 120px
+    );
+}
+
+/* Glass card */
+.glass {
+  background: rgba(7, 32, 16, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(57, 255, 20, 0.08);
+}
+
+.glass-gold {
+  background: rgba(251, 191, 36, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(251, 191, 36, 0.15);
+}
