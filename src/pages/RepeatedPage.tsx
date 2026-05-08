@@ -30,8 +30,8 @@ export function RepeatedPage() {
   }
 
   const byTeam = (
-    stickers ?? []
-  ).reduce<Record<string, typeof stickers>>(
+  stickers ?? []
+).reduce<Record<string, NonNullable<typeof stickers>>>(
     (acc, s) => {
       const key =
         s.team?.name ?? 'Sin equipo'
