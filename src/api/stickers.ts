@@ -14,7 +14,7 @@ export async function fetchTeamsWithProgress(userId: string): Promise<TeamWithPr
 
   const ownedByTeam: Record<number, number> = {}
   for (const row of col ?? []) {
-    const teamId = (row.stickers as { team_id: number }).team_id
+    const teamId = (row.stickers as { team_id: number }[])[0]?.team_id
     ownedByTeam[teamId] = (ownedByTeam[teamId] ?? 0) + 1
   }
 
