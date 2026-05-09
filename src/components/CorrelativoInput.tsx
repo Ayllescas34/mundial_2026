@@ -104,7 +104,7 @@ export function CorrelativoInput() {
 
         <input
           type="text"
-          inputMode="numeric"
+          inputMode="text"
           autoComplete="off"
           placeholder="Ej: 59 120 455"
           value={value}
@@ -129,6 +129,18 @@ export function CorrelativoInput() {
           "
         />
       </div>
+
+      <p
+        className="
+            text-xs
+            text-green-800
+            mt-2
+            px-1
+            font-body
+        "
+        >
+        Puedes pegar varias estampas a la vez
+    </p>
 
       {/* RESULTS */}
 
