@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { fetchTeamsWithProgress, fetchGlobalStats, fetchTeamStickers,
-  fetchRepeatedStickers, fetchMissingStickers, addStickers, removeSticker, searchStickers } from '@/api/stickers'
+  fetchRepeatedStickers, fetchMissingStickers, addStickers, removeSticker, searchStickers, getStickerByCorrelativo} from '@/api/stickers'
 import { useUser } from './useAuth'
 
 export function useGlobalStats() {
@@ -84,5 +84,13 @@ export function useRemoveSticker() {
       qc.invalidateQueries({ queryKey: ['repeated'] })
       qc.invalidateQueries({ queryKey: ['missing'] })
     },
+  })
+}
+
+export function useStickerByCorrelativo(correlativo?: number) {
+  return useQuery({
+    queryKey: ['sticker-correlativo', correlativo],
+    queryFn: () => getStickerByCorrelativo(correlativo!),
+    enabled: !!correlativo,
   })
 }

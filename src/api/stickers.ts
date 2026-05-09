@@ -13,9 +13,14 @@ export async function fetchTeamsWithProgress(userId: string): Promise<TeamWithPr
   if (e2) throw e2
 
   const ownedByTeam: Record<number, number> = {}
+
   for (const row of col ?? []) {
-    const teamId = (row.stickers as { team_id: number }[])[0]?.team_id
-    ownedByTeam[teamId] = (ownedByTeam[teamId] ?? 0) + 1
+    const sticker = row.stickers as unknown as { team_id: number }
+
+    if (!sticker?.team_id) continue
+
+    ownedByTeam[sticker.team_id] =
+      (ownedByTeam[sticker.team_id] ?? 0) + 1
   }
 
   return (teams ?? []).map((team) => {
@@ -156,4 +161,19 @@ export async function searchStickers(userId: string, query: string): Promise<Sti
   const qtyMap: Record<number, number> = {}
   for (const row of col ?? []) qtyMap[row.sticker_id] = row.quantity
   return (data ?? []).map(s => ({ ...s, quantity: qtyMap[s.id] ?? 0, team: (s as any).teams }))
+}
+
+export async function getStickerByCorrelativo(correlativo: number) {
+  const { data, error } = await supabase
+    .from('stickers')
+    .select('*')
+    .eq('correlativo', correlativo)
+    .single()
+
+  if (error) {
+    console.error(error)
+    throw error
+  }
+
+  return data
 }
