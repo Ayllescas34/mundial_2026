@@ -9,7 +9,7 @@ import {
   Search,
 } from 'lucide-react'
 
-import { getStickerByCorrelativo } from '@/api/stickers'
+import { getStickerByNumber } from '@/api/stickers'
 
 import { useAddStickers } from '@/hooks/useCollection'
 
@@ -24,21 +24,25 @@ export function CorrelativoInput() {
 
   const addMutation = useAddStickers()
 
-  const correlativos = useMemo(() => {
+  const stickersInput = useMemo(() => {
     return value
       .split(/[\s,]+/)
-      .map(n => Number(n.trim()))
-      .filter(n => !isNaN(n))
+      .map(text =>
+        text
+          .trim()
+          .toUpperCase()
+      )
+      .filter(Boolean)
   }, [value])
 
   async function buscarStickers() {
     try {
       const results = []
 
-      for (const correlativo of correlativos) {
+      for (const number of stickersInput) {
         const sticker =
-          await getStickerByCorrelativo(
-            correlativo
+          await getStickerByNumber(
+            number
           )
 
         if (sticker) {
@@ -54,7 +58,7 @@ export function CorrelativoInput() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (correlativos.length > 0) {
+      if (stickersInput.length > 0) {
         buscarStickers()
       } else {
         setStickers([])
@@ -106,7 +110,9 @@ export function CorrelativoInput() {
           type="text"
           inputMode="text"
           autoComplete="off"
-          placeholder="Ej: 59 120 455"
+          autoCapitalize="characters"
+          spellCheck={false}
+          placeholder="Ej: POR15 ARG11 CC4"
           value={value}
           onChange={e =>
             setValue(e.target.value)
@@ -132,15 +138,15 @@ export function CorrelativoInput() {
 
       <p
         className="
-            text-xs
-            text-green-800
-            mt-2
-            px-1
-            font-body
+          text-xs
+          text-green-800
+          mt-2
+          px-1
+          font-body
         "
-        >
+      >
         Puedes pegar varias estampas a la vez
-    </p>
+      </p>
 
       {/* RESULTS */}
 
@@ -168,19 +174,6 @@ export function CorrelativoInput() {
 
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className="
-                        text-xs
-                        font-mono
-                        text-green-400
-                      "
-                    >
-                      #
-                      {
-                        sticker.correlativo
-                      }
-                    </span>
-
                     <span
                       className="
                         text-xs
@@ -215,8 +208,24 @@ export function CorrelativoInput() {
                   >
                     {sticker.team?.name}
                     {' · '}
-                    {sticker.position ??
-                      sticker.type}
+                    {
+                      sticker.position ??
+                      (
+                        sticker.type ===
+                          'badge'
+                          ? 'Escudo'
+                          : sticker.type ===
+                              'squad'
+                            ? 'Foto del equipo'
+                            : sticker.type ===
+                                'special'
+                              ? 'Especial FIFA'
+                              : sticker.type ===
+                                  'coca_cola'
+                                ? 'Coca Cola Collection'
+                                : 'Sticker oficial'
+                      )
+                    }
                   </p>
                 </div>
               </div>

@@ -177,3 +177,25 @@ export async function getStickerByCorrelativo(correlativo: number) {
 
   return data
 }
+
+export async function getStickerByNumber(
+  number: string
+) {
+  const { data, error } = await supabase
+    .from('stickers')
+    .select(`
+      *,
+      team:teams(*)
+    `)
+    .eq('number', number.toUpperCase())
+    .single()
+
+  if (error) {
+    console.error(error)
+    return null
+  }
+
+  return data
+}
+
+
